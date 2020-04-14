@@ -34,6 +34,20 @@ func (m *Message) String() string {
 	return fmt.Sprintf("%v body=%s", m.Headers, m.Body)
 }
 
+func (m *Message) PrettyPrint() {
+	var keys []string
+	for k := range m.Headers {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	for _, k := range keys {
+		fmt.Printf("%s: %#v\n", k, m.Headers[k])
+	}
+	if m.Body != nil {
+		fmt.Printf("BODY: %#v\n", m.Body)
+	}
+}
+
 // GetCallUUID - Will return Caller-Unique-Id
 func (m *Message) GetCallUUID() string {
 	return m.GetHeader("Caller-Unique-Id")
